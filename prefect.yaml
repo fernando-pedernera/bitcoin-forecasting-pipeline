@@ -1,0 +1,39 @@
+# Prefect configuration file
+name: bitcoin-forecasting-pipeline
+description: End-to-end Bitcoin forecasting pipeline with ETL, ML, and orchestration
+
+# Default variables
+variables:
+  environment: development
+  historical_data_days: 180
+
+# Flow storage (adjust based on your setup)
+storage:
+  type: local
+  local:
+    stored_as_script: true
+    path: ${PWD}
+
+# Deployment configurations (example)
+deployments:
+  - name: daily-forecasting
+    version: 1.0.0
+    tags: ["daily", "forecasting", "production"]
+    description: Daily Bitcoin forecasting pipeline
+    schedule:
+      cron: "0 8 * * *"  # Run daily at 8 AM
+    parameters: {}
+    work_pool:
+      name: default-agent-pool
+      work_queue_name: default
+
+  - name: weekly-training
+    version: 1.0.0
+    tags: ["weekly", "training", "ml"]
+    description: Weekly model retraining
+    schedule:
+      cron: "0 9 * * 1"  # Run every Monday at 9 AM
+    parameters: {}
+    work_pool:
+      name: default-agent-pool
+      work_queue_name: default

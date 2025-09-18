@@ -5,3 +5,5 @@ test_data.parquet
 test_spark.py
 mlflow.db
 test_parquet.ipynb
+tests/
+

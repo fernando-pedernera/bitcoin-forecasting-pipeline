@@ -248,6 +248,29 @@ def feature_pipeline():
         logger.error(f"❌ Error en el pipeline: {e}")
         raise
 
+def run_feature_pipeline():
+    """
+    Wrapper function for Prefect compatibility
+    Maintains the interface expected by prefect_flows.py
+    """
+    try:
+        result = feature_pipeline()
+        return {
+            "status": "success",
+            "data": result,
+            "message": "Feature pipeline completed successfully"
+        }
+    except Exception as e:
+        logger.error(f"Error in run_feature_pipeline: {e}")
+        return {
+            "status": "error",
+            "error": str(e),
+            "message": "Feature pipeline failed"
+        }
+
+# Alias alternativo para mantener compatibilidad
+execute_feature_pipeline = run_feature_pipeline
+
 if __name__ == "__main__":
     # Ejecutar el pipeline
     processed_data = feature_pipeline()
